@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>스프링 부트로 시작하는 웹 서비스</h1>
+    <form>
+        <label for="title">제목</label>
+        <input id="title" placeholder="제목을 입력하세요."/>
+        <label for="author">작성자</label>
+        <input id="author" placeholder="작성자를 입력하세요."/>
+        <label for="content">내용</label>
+        <textarea id="content" placeholder="내용을 입력해주세요"></textarea>
+    </form>
+    <button id="btn-save" type="button">등록</button>
+
+
+    <div>
+        <h2>목록</h2>
+        <ul>
+            {{#each posts}}
+                <li>
+                    <span>{{id}}</span>
+                    <span>{{title}}</span>
+                    <span>{{author}}</span>
+                    <span>{{modifiedDate}}</span>
+                </li>
+            {{/each}}
+        </ul>
+    </div>
+
+    <script>
+        (function() {
+            function fetchPost () {
+                const data = {
+                    title: document.getElementById('title').value,
+                    author: document.getElementById('author').value,
+                    content: document.getElementById('content').value,
+                }
+
+                fetch('/posts', {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json; charset=utf-8"
+                    },
+                    body: JSON.stringify(data)
+                })
+                        .then((res) => res.json())
+                        .then((data) => console.log(data))
+                        .catch((err) => { console.error(err) })
+            }
+
+            document.getElementById('btn-save').addEventListener('click', (e) => {
+                fetchPost();
+            })
+        })()
+    </script>
+</body>
+</html>

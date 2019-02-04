@@ -1,0 +1,16 @@
+server:
+  port: 8090
+
+spring:
+  profiles:
+    active: local
+
+---
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+  h2:
+    console:
+      enabled: true
